@@ -179,42 +179,21 @@ app.get("/view-logs", async (req, res) => {
     res.status(500).send(error.message);
   }
 });
-
-app.get("/seed-log", async (req, res) => {
-  await db.ref("/logs/log001").set({
-    uid: "A1B2C3D4",
-    user: "Judah",
-    result: "AUTHORIZED",
-    time: "4/19/2026, 10:25 PM"
-  });
-
-  res.send("Sample log added");
-});
-
 app.get("/vehicle-status", async (req, res) => {
   try {
-    const snap = await db.ref("vehicle/status").once("value");
-    res.json({ status: snap.val() || "OFF" });
+    const snapshot = await db.ref("/vehicles/status").once("value");
+    res.json(snapshot.val() || { status: "OFF" });
   } catch (error) {
-    res.status(500).json({ error: "Failed to fetch status" });
+    res.status(500).send(error.message);
   }
 });
 
-app.post("/start-vehicle", async (req, res) => {
+app.get("/users", async (req, res) => {
   try {
-    await db.ref("vehicle/status").set("ON");
-    res.json({ message: "Vehicle Started" });
+    const snapshot = await db.ref("/users").once("value");
+    res.json(snapshot.val() || {});
   } catch (error) {
-    res.status(500).json({ error: "Failed to start vehicle" });
-  }
-});
-
-app.post("/stop-vehicle", async (req, res) => {
-  try {
-    await db.ref("vehicle/status").set("OFF");
-    res.json({ message: "Vehicle Stopped" });
-  } catch (error) {
-    res.status(500).json({ error: "Failed to stop vehicle" });
+    res.status(500).send(error.message);
   }
 });
 /* =========================
