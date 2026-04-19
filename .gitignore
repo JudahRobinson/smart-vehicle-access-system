@@ -28,3 +28,4 @@ dist-ssr
 *.sln
 *.sw?
 >>>>>>> 34db564 (RFID)
+node_modules/
