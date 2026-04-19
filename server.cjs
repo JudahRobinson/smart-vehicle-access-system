@@ -180,6 +180,16 @@ app.get("/view-logs", async (req, res) => {
   }
 });
 
+app.get("/seed-log", async (req, res) => {
+  await db.ref("/logs/log001").set({
+    uid: "A1B2C3D4",
+    user: "Judah",
+    result: "AUTHORIZED",
+    time: "4/19/2026, 10:25 PM"
+  });
+
+  res.send("Sample log added");
+});
 /* =========================
    SERVER START
 ========================= */
