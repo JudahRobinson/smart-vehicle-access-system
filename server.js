@@ -179,7 +179,23 @@ app.get("/view-logs", async (req, res) => {
     res.status(500).send(error.message);
   }
 });
+app.get("/vehicle-status", async (req, res) => {
+  try {
+    const snapshot = await db.ref("/vehicles/status").once("value");
+    res.json(snapshot.val() || { status: "OFF" });
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+});
 
+app.get("/users", async (req, res) => {
+  try {
+    const snapshot = await db.ref("/users").once("value");
+    res.json(snapshot.val() || {});
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+});
 /* =========================
    SERVER START
 ========================= */
